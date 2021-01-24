@@ -37,14 +37,14 @@ class WhereScope implements Scope
 
         $newArr = [];
         foreach ($wheres as $key => $where) {
-            if (method_exists($this, "iterateOn" . $where['type'])) {
-                $newArr[] = $this->{"iterateOn" . $where['type']}($where, $translatableColumns, $locale);
+            if (method_exists($this, 'iterateOn'.$where['type'])) {
+                $newArr[] = $this->{'iterateOn'.$where['type']}($where, $translatableColumns, $locale);
             } else {
                 $newArr[] = $where;
             }
         }
 
-        if (!empty($newArr)) {
+        if (! empty($newArr)) {
             $query->wheres = $newArr;
         }
 
@@ -63,7 +63,7 @@ class WhereScope implements Scope
             array_key_exists('column', $where) &&
             in_array($where['column'], $translatableColumns)
         ) {
-            $where['column'] = explode('->', $where['column'])[0] . "->{$locale}";
+            $where['column'] = explode('->', $where['column'])[0]."->{$locale}";
         }
 
         return $where;
@@ -81,14 +81,14 @@ class WhereScope implements Scope
         $nestedWheres = $nestedQuery->wheres;
         $newNestedArr = [];
         foreach ($nestedWheres as $nestedWhere) {
-
-            if (method_exists($this, "iterateOn" . $nestedWhere['type'])) {
-                $newNestedArr [] = $this->{"iterateOn" . $nestedWhere['type']}($nestedWhere, $translatableColumns, $locale);
+            if (method_exists($this, 'iterateOn'.$nestedWhere['type'])) {
+                $newNestedArr [] = $this->{'iterateOn'.$nestedWhere['type']}($nestedWhere, $translatableColumns, $locale);
             }
         }
 
         $nestedQuery->wheres = $newNestedArr;
         $where['query'] = $nestedQuery;
+
         return $where;
     }
 }
