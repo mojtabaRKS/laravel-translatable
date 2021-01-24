@@ -26,7 +26,7 @@ trait HasTranslations
      */
     public function getAttributeValue($key)
     {
-        if (!$this->isTranslatableAttribute($key)) {
+        if (! $this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
 
@@ -41,7 +41,7 @@ trait HasTranslations
     public function setAttribute($key, $value)
     {
         // Pass arrays and untranslatable attributes to the parent method.
-        if (!$this->isTranslatableAttribute($key) || is_array($value)) {
+        if (! $this->isTranslatableAttribute($key) || is_array($value)) {
             return parent::setAttribute($key, $value);
         }
 
@@ -138,7 +138,7 @@ trait HasTranslations
         $oldValue = $translations[$locale] ?? '';
 
         if ($this->hasSetMutator($key)) {
-            $method = 'set' . Str::studly($key) . 'Attribute';
+            $method = 'set'.Str::studly($key).'Attribute';
 
             $this->{$method}($value, $locale);
 
@@ -234,7 +234,7 @@ trait HasTranslations
      */
     protected function guardAgainstNonTranslatableAttribute(string $key)
     {
-        if (!$this->isTranslatableAttribute($key)) {
+        if (! $this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);
         }
     }
@@ -251,15 +251,15 @@ trait HasTranslations
             return $locale;
         }
 
-        if (!$useFallbackLocale) {
+        if (! $useFallbackLocale) {
             return $locale;
         }
 
-        if (!is_null($fallbackLocale = Config::get('translatable.fallback_locale'))) {
+        if (! is_null($fallbackLocale = Config::get('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 
-        if (!is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
+        if (! is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
             return $fallbackLocale;
         }
 

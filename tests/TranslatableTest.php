@@ -234,8 +234,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_is_compatible_with_accessors_on_non_translatable_attributes()
     {
-        $testModel = new class() extends TestModel
-        {
+        $testModel = new class() extends TestModel {
             public function getOtherFieldAttribute(): string
             {
                 return 'accessorName';
@@ -248,8 +247,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_use_accessors_on_translated_attributes()
     {
-        $testModel = new class() extends TestModel
-        {
+        $testModel = new class() extends TestModel {
             public function getNameAttribute($value): string
             {
                 return "I just accessed {$value}";
@@ -264,8 +262,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_use_mutators_on_translated_attributes()
     {
-        $testModel = new class() extends TestModel
-        {
+        $testModel = new class() extends TestModel {
             public function setNameAttribute($value)
             {
                 $this->attributes['name'] = "I just mutated {$value}";
@@ -333,8 +330,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_correctly_set_a_field_when_a_mutator_is_defined()
     {
-        $testModel = (new class() extends TestModel
-        {
+        $testModel = (new class() extends TestModel {
             public function setNameAttribute($value)
             {
                 $this->attributes['name'] = "I just mutated {$value}";
@@ -350,8 +346,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_set_multiple_translations_when_a_mutator_is_defined()
     {
-        $testModel = (new class() extends TestModel
-        {
+        $testModel = (new class() extends TestModel {
             public function setNameAttribute($value)
             {
                 $this->attributes['name'] = "I just mutated {$value}";
@@ -380,11 +375,10 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_translate_a_field_based_on_the_translations_of_another_one()
     {
-        $testModel = (new class() extends TestModel
-        {
+        $testModel = (new class() extends TestModel {
             public function setOtherFieldAttribute($value, $locale = 'en')
             {
-                $this->attributes['other_field'] = $value . ' ' . $this->getTranslation('name', $locale);
+                $this->attributes['other_field'] = $value.' '.$this->getTranslation('name', $locale);
             }
         });
 
@@ -411,8 +405,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_handle_null_value_from_database()
     {
-        $testModel = (new class() extends TestModel
-        {
+        $testModel = (new class() extends TestModel {
             public function setAttributesExternally(array $attributes)
             {
                 $this->attributes = $attributes;
@@ -490,7 +483,7 @@ class TranslatableTest extends TestCase
         $locale = 'en';
         app()->setLocale($locale);
 
-        $modelQuery = TestModel::where('name', 'LIKE', "%test%")->toSql();
+        $modelQuery = TestModel::where('name', 'LIKE', '%test%')->toSql();
 
         $this->assertTrue(Str::contains($modelQuery, "'$.\"{$locale}\"'"));
     }
@@ -502,7 +495,7 @@ class TranslatableTest extends TestCase
             'name' => ['en' => 'testValue_en'],
         ]);
 
-        $count = TestModel::where('name', 'LIKE', "%test%")->count();
+        $count = TestModel::where('name', 'LIKE', '%test%')->count();
 
         $this->assertEquals(1, $count);
     }
